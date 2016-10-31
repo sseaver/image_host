@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-8">
+    <br>
+    <h1>Welcome to Imager</h1>
+  </div>
+  <div class="col-md-4">
+    <br>
+    {% if not request.user.is_authenticated %}
+    <form class="" action="{% url 'login' %}" method="post">
+      {% csrf_token %}
+      {{ login_form.as_p }}
+      <input type="submit" name="" value="Login">
+    </form>
+    {% endif %}
+  </div>
+</div>
+<br>
+<h2>All Posts</h2>
+<br>
+<div class="row">
+
+{% for post in object_list %}
+  <div class="col-sm-6 col-md-4">
+    <div class="image-container">
+      <div class="thumbnail">
+        <img src="{{ MEDIA_URL }}{{ post.image_url }}" alt="Picture of {{ post.title }}" />
+        <div class="caption">
+          <h3><a href="{% url 'post_detail_comment_create_view' post.id %}">{{ post.title }}</a></h3>
+          <p>
+            {{ post.description }}<br>
+            <font size="1">By: {{ post.created_by }}</font>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endfor %}
+</div>
+
+{% endblock %}

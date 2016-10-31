@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>{{ post.title }}</h1>
+<h4>{{ post.description }}</h4>
+<br>
+<h5>Posted by: {{ post.created_by }}</h5>
+<h6>{{ post.created_time|timesince }} ago</h6>
+
+<img src="{{ MEDIA_URL }}{{ post.image_url }}" alt="Picture of {{ post.title }}" />
+<br>
+<br>
+{% if request.user.is_authenticated %}
+<form class="" action="" method="post">
+{% csrf_token %}
+<div class="panel panel-default">
+  <div class="panel-body">
+    <p>
+      <h4>Post a comment!</h4><br>{{ form }}
+    </p>
+    <input class="btn btn-default" type="submit" value="Submit">
+  </div>
+</div>
+</form>
+<br>
+<h4>All Comments</h4>
+{% for comment in post.comment_set.all %}
+<div class="panel panel-default">
+  <div class="panel-body">
+    {{ comment.content }}
+  </div>
+  <div class="panel-footer">By: {{ comment.created_by }}
+    <font size="1">{{ comment.created_time|timesince }} ago</font>
+    {% if request.user == comment.created_by %}
+    <div class="pull-right">
+      <font size="2"><a href="{% url 'comment_update_view' comment.id %}">Update Comment</font></a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

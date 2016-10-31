@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ request.user }}'s Posts</h1>
+<br>
+<div class="row">
+
+{% for post in object_list %}
+  <div class="col-sm-6 col-md-4">
+    <div class="image-container">
+
+    <div class="thumbnail">
+      <img src="{{ MEDIA_URL }}{{ post.image_url }}" alt="Picture of {{ post.title }}" />
+      <div class="caption">
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.description }}</p>
+        <p>
+          <a href="{% url 'post_update_view' post.id %}" class="btn btn-primary" role="button">Update</a>
+          <a href="{% url 'post_delete_view' post.id %}" class="btn btn-danger" role="button">Delete</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  </div>
+{% endfor %}
+</div>
+
+{% endblock %}
