@@ -10,6 +10,7 @@ from django.urls import reverse_lazy
 class IndexView(ListView):
     template_name = "index.html"
     model = Post
+    paginate_by = 6
 
     def get_context_data(self):
         context = super().get_context_data()
